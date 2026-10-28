@@ -72,6 +72,25 @@ El frontend nunca consulta Firestore directamente: todo pasa por los backends, q
 
 Para detener todo: `Ctrl + C` y luego `docker compose down`.
 
+### ¿Qué hace `docker compose up --build`?
+
+- **`--build`** construye una imagen por servicio a partir del `Dockerfile` de cada repositorio (el código se compila *dentro* de la imagen). No hace falta ejecutar `npm install` ni `npm run build` antes: solo se necesita Docker.
+- **`up`** crea un contenedor por imagen, les pasa sus `.env`, abre los puertos y arranca el frontend cuando los backends están sanos.
+- Usa `--build` la primera vez y cada vez que hagas `git pull` en algún servicio; sin él, Compose reutiliza las imágenes anteriores (con el código viejo).
+
+### Actualizar a la última versión
+
+```bash
+git -C frontend pull
+git -C backend-api pull
+git -C backend-realtime pull
+docker compose up --build
+```
+
+## Desarrollo sin Docker (opcional)
+
+Cada servicio también se puede correr con Node 22 directamente, con recarga automática al guardar. Ver el README de cada repositorio (`npm install`, luego `npm run start:dev` en los backends o `npm run dev` en el frontend).
+
 ## Despliegue
 
 - **Backends (Render):** cada repositorio tiene su `Dockerfile`; Render construye la imagen y ejecuta el contenedor en cada push a `main`. Las variables de entorno se configuran en el panel de Render.
