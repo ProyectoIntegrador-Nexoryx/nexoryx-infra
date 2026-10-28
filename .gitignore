@@ -1,0 +1,11 @@
+# Each service lives in its own repository; clone them inside this folder.
+frontend/
+backend-api/
+backend-realtime/
+
+# Local configuration (never commit real values)
+.env
+.env.*
+!.env.example
+
+.DS_Store
